@@ -99,7 +99,6 @@ class MELDDataset(Dataset):
 
             # Read using soundfile directly
             waveform_np, sample_rate = sf.read(audio_path)
-
             # Convert to tensor and add the channel dimension (1, frames) to match torchaudio's expected output shape
             waveform = torch.FloatTensor(waveform_np).unsqueeze(0)
 
@@ -186,7 +185,7 @@ def collate_fn(batch):
     return torch.utils.data.dataloader.default_collate(batch)
 
 
-def prepare_dataloader(
+def prepare_dataloaders(
     train_csv,
     train_video_dir,
     dev_csv,
@@ -211,13 +210,13 @@ def prepare_dataloader(
 
 
 if __name__ == "__main__":
-    train_loader, dev_loader, test_loader = prepare_dataloader(
-        "dataset/train/train_sent_emo.csv",
-        "dataset/train/train_splits",
-        "dataset/dev/dev_sent_emo.csv",
-        "dataset/dev/dev_splits_complete",
-        "dataset/test/test_sent_emo.csv",
-        "dataset/test/output_repeated_splits_test",
+    train_loader, dev_loader, test_loader = prepare_dataloaders(
+        "../dataset/train/train_sent_emo.csv",
+        "../dataset/train/train_splits",
+        "../dataset/dev/dev_sent_emo.csv",
+        "../dataset/dev/dev_splits_complete",
+        "../dataset/test/test_sent_emo.csv",
+        "../dataset/test/output_repeated_splits_test",
     )
 
     for batch in train_loader:
